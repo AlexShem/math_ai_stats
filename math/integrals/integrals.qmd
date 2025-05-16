@@ -1,0 +1,24 @@
+---
+title: "Integrals"
+author: "Professor Alex"
+date: "2025-04-27"
+format:
+    html: 
+        toc: true
+        toc-depth: 3
+        embed-resources: true
+        code-fold: true
+        highlight-style: atom-one
+        monofont: JetBrains Mono
+jupyter: python3
+---
+
+{{< include _01_introduction.qmd >}}
+{{< include _02_what_is_an_integral.qmd >}}
+{{< include _03_basic_concepts.qmd >}}
+{{< include _04_formulas.qmd >}}
+{{< include _05_real_life_applications.qmd >}}
+{{< include _06_real_life_example.qmd >}}
+{{< include _07_python_implementation.qmd >}}
+{{< include _08_conclusion.qmd >}}
+

@@ -1,0 +1,102 @@
+## What is an Integral?
+
+**Definition:** An *integral* is a mathematical tool used to find the area under a curve on a graph.
+
+### In Plain Language
+
+An integral is like a sophisticated way of adding up lots of small pieces to find a total. Imagine you want to measure the area of a garden with curved edges. You could place a grid over it and count how many square meters are fully inside the garden. For squares that are partially in the garden, you'd have to estimate what fraction of each square is inside.
+
+Integrals work in a similar way, but they use infinitely small pieces, making the calculation exact rather than an estimate.
+
+### From Rectangles to Integrals
+
+Let's think about calculating the area under a curve:
+
+1. We could divide the area into rectangles.
+2. Calculate the area of each rectangle.
+3. Add up all those areas to get an approximation.
+
+```{python}
+#| label: fig-rectangles
+#| fig-cap: "Approximating area under a curve with rectangles"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+    return x**2 + 1
+
+x = np.linspace(0, 2, 1000)
+y = f(x)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+# Few rectangles
+x_rect = np.linspace(0, 2, 5)
+y_rect = f(x_rect)
+width = x_rect[1] - x_rect[0]
+
+ax1.plot(x, y)
+ax1.set_xlim(0, 2)
+ax1.set_ylim(0, 5)
+for i in range(len(x_rect)-1):
+    ax1.add_patch(plt.Rectangle((x_rect[i], 0), width, y_rect[i], color='skyblue', alpha=0.5))
+ax1.set_title("Approximation with few rectangles")
+
+# Many rectangles
+x_rect = np.linspace(0, 2, 20)
+y_rect = f(x_rect)
+width = x_rect[1] - x_rect[0]
+
+ax2.plot(x, y)
+ax2.set_xlim(0, 2)
+ax2.set_ylim(0, 5)
+for i in range(len(x_rect)-1):
+    ax2.add_patch(plt.Rectangle((x_rect[i], 0), width, y_rect[i], color='skyblue', alpha=0.5))
+ax2.set_title("Better approximation with more rectangles")
+
+plt.tight_layout()
+plt.show()
+```
+
+As we make the rectangles narrower and narrower, our approximation gets closer and closer to the exact area. When we use infinitely thin rectangles, we get the exact area, which is what an integral calculates.
+
+### A Real-World Example
+
+If a car's speed over time is shown on a graph (with time on the x-axis and speed on the y-axis), the total area under the curve represents the total distance traveled.
+
+```{python}
+#| label: fig-speed-distance
+#| fig-cap: "Area under speed-time curve equals distance traveled"
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+def speed(t):
+    return 20 + 5*np.sin(t) # Speed in km/h varying over time
+
+t = np.linspace(0, 4, 1000) # Time in hours
+v = speed(t)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(t, v, 'r', linewidth=2)
+ax.set_xlim(0, 4)
+ax.set_ylim(0, 30)
+ax.set_xlabel('Time (hours)')
+ax.set_ylabel('Speed (km/h)')
+
+# Fill the area under the curve
+verts = [(0, 0)] + list(zip(t, v)) + [(4, 0)]
+poly = Polygon(verts, facecolor='skyblue', edgecolor='skyblue', alpha=0.5)
+ax.add_patch(poly)
+
+ax.text(2, 10, "Area = Total Distance Traveled", 
+        horizontalalignment='center', fontsize=14)
+
+ax.set_title("Speed vs. Time")
+plt.tight_layout()
+plt.show()
+```
+
+The area under this curve gives us the total distance the car traveled over the 4 hours. Using integration, we can calculate this area exactly.

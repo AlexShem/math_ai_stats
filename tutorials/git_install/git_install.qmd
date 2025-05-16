@@ -1,0 +1,259 @@
+---
+title: "Git Installation Guide for Students"
+author: "Professor Alex"
+date: "2025-05-10"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+    theme: cosmo
+    highlight-style: github
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    code-copy: true
+    fig-responsive: true
+    monofont: JetBrains Mono
+---
+
+This guide will walk you through installing **Git** on your Windows computer and setting it up to work with **GitHub**. Follow these steps carefully!
+
+## Why Learn Git and Version Control?
+
+Before we dive into the installation process, let's understand why Git is such an important tool for students and professionals alike.
+
+### What is Git?
+
+Git is a **version control system** - a tool that helps you track changes to your files over time. Think of it as a super-powered "save" button that:
+
+- Records a complete history of changes to your files
+- Allows you to go back in time to any previous version
+- Helps you collaborate with others without overwriting each other's work
+- Keeps your work organized and backed up
+
+### Why Should You Care About Version Control?
+
+As a student, you might wonder why you need version control. Here are some practical reasons:
+
+- **Never lose your work**: Have you ever accidentally deleted part of an assignment and couldn't get it back? With Git, you can restore any previous version.
+- **Track your progress**: See how your project evolved from beginning to end, which is great for learning and reflection.
+- **Experiment freely**: Try new approaches without fear. If something doesn't work out, you can easily revert to a working version.
+- **Collaborate effectively**: Work on group projects without the chaos of emailing files back and forth or dealing with conflicting changes.
+- **Document AI contributions**: When using tools like GitHub Copilot or ChatGPT to help with your code, Git lets you track which parts were AI-generated versus your own work when copying and pasting.
+
+### How Git Works in Practice
+
+Here's a simple workflow to understand how you'll use Git:
+
+1. **Create or modify files** for your project (e.g., writing code, creating documents)
+2. **Save changes** to Git (this is called "committing")
+3. **Push your work** to GitHub (an online service) to back it up
+4. **Pull updates** when working on a different computer or with teammates
+
+Think of it like this:
+
+- Your computer has a complete copy of your project
+- GitHub has another copy stored safely online
+- Git tracks the differences as you make changes
+- You use simple commands to keep everything in sync
+
+### Benefits for Beginners
+
+Even if you're just starting out:
+
+- **Build good habits early**: Learning Git now will prepare you for future academic and professional work
+- **Organize your learning**: Keep track of exercises, assignments, and projects in one place
+- **Recover from mistakes**: Accidentally deleted something important? No problem - Git can help you get it back
+- **Show your work**: Build a portfolio of your projects that you can share with teachers or future employers
+
+Now that you understand why Git is valuable, let's get it installed on your computer.
+
+## Download Git
+
+1. Open your web browser and go to the official Git website: [https://git-scm.com/download/win](https://git-scm.com/download/win)
+2. On the download page, look for "Click here to download" under the text that says "(2.49.0) x64 version of Git for Windows"
+3. Click on that download link to start downloading the installer
+
+![Git: Download for Windows](./assets/images/git_download.png)
+
+## Install Git
+
+Run the downloaded installer and follow these steps:
+
+1. If you see a security warning, click **Run** or **Yes** to continue
+2. On the license screen, click **Next**
+3. Choose the installation location (the default is fine) and click **Next**
+4. On the Select Components screen, leave the defaults and click **Next**
+   - Make sure "Windows Explorer integration" is checked
+   - Make sure "Git Bash Here" is checked
+   - Make sure "Git GUI Here" is checked
+
+![Git: Components](./assets/images/git_components.png)
+
+5. Choose the default editor and click **Next**
+    - Select *Use Visual Studio as Git's default editor* if you have it installed
+    - Otherwise, select *Use Notepad* or any other text editor you prefer
+6. For "Adjusting the name of the initial branch in new repositories":
+    - Select "Override the default branch name for new repositories"
+    - Fill in the name of the default branch (e.g., `main`).
+    - Click **Next**
+7. For "Adjusting your PATH environment", select **Git from the command line and also from 3rd-party software** (the middle option) and click **Next**
+8. For "Choosing the SSH executable", select **Use bundled OpenSSH** and click **Next**
+9. For "Choosing HTTPS transport backend", select **Use the OpenSSL library** and click **Next**
+10. For "Configuring the line ending conversions", select **Checkout Windows-style, commit Unix-style line endings** and click **Next**
+11. For "Configuring the terminal emulator", select **Use MinTTY** and click **Next**
+12. For "Choose the default behavior of `git pull`", select **Fast-forward or merge** and click **Next**
+13. For "Choose a credential helper", select **Git Credential Manager** and click **Next**
+14. For "Configuring extra options", leave the defaults and click **Next**
+15. For "Configuring experimental options", leave unchecked and click **Install**
+16. Wait for the installation to complete, then click **Finish**
+
+## Verify Installation
+
+Let's make sure Git was installed correctly:
+
+1. Press the Windows key, type "cmd" and open Command Prompt
+2. Type the following command and press Enter:
+
+```powershell
+git --version
+```
+
+3. You should see something like `git version 2.49.0.windows.1` (the numbers might be different)
+
+![Git: Verify Installation](./assets/images/cmd_git_version.png)
+
+## Configure Git with Your Name and Email
+
+Now we need to tell Git who you are. This information will be included with your changes:
+
+1. Open Command Prompt if it's not already open (Windows key, type "cmd", open Command Prompt)
+2. Run these commands, replacing the example information with your own:
+
+```powershell
+git config --global user.name "Your Name"
+```
+
+```powershell
+git config --global user.email "your.email@example.com"
+```
+
+::: {.callout-warning}
+Use the same email that you used to create your GitHub account
+:::
+
+3. Verify your settings with:
+
+```powershell
+git config --global user.name
+```
+
+```powershell
+git config --global user.email
+```
+
+![Git: Verify Configuration](./assets/images/cmd_git_config.png)
+
+## Using Git with GitHub
+
+Now that Git is installed and configured, let's connect to GitHub and learn how to use basic Git commands.
+
+### Cloning a Repository (Your First GitHub Connection)
+
+Let's start by cloning (downloading) a repository from GitHub. This will also set up your connection to GitHub:
+
+1. Go to the GitHub repository in your browser
+2. Click the green **Code** button
+3. Make sure HTTPS is selected
+4. Copy the URL
+5. Open Command Prompt (or VS Code terminal)
+6. Navigate to the folder where you want to download the repository using the `cd` command:
+
+```powershell
+cd C:\Users\YourUsername\Documents\GitHub
+```
+
+7. Clone the repository by typing:
+
+```powershell
+git clone https://github.com/username/repository.git
+```
+
+8. The first time you connect to GitHub, a browser window will automatically open asking you to sign in:
+   - Enter your GitHub username and password
+   - If prompted for two-factor authentication, enter your code
+   - Once authenticated, the browser will show a message like "Authentication Succeeded"
+   - Close the browser window and return to your terminal
+   - The cloning process will continue automatically
+
+![Git: Cloning Authentication Pop-Up](./assets/images/git_clone_auth_window.png)
+
+::: {.callout-note}
+If you've previously authenticated with GitHub, you might not be prompted to log in again when cloning. This means Git Credential Manager is already working correctly and using your stored credentials.
+:::
+
+### The Magic of Git Credential Manager
+
+You only need to sign in **once** because Git Credential Manager (which we installed with Git) will:
+
+- Store your authentication details securely in Windows Credential Manager
+- Use these stored credentials for future GitHub operations
+- No more typing your password each time!
+
+### Working with Files
+
+After cloning a repository and making changes to files, here's how to save and upload your changes:
+
+1. Check which files you've modified:
+
+```powershell
+git status
+```
+
+2. Add all changed files to be committed:
+
+```powershell
+git add .
+```
+
+3. Commit your changes with a message:
+
+```powershell
+git commit -m "Describe what you changed"
+```
+
+4. Push your changes to GitHub:
+
+```powershell
+git push
+```
+
+::: {.callout-tip}
+When you push for the first time, Git might ask you to authenticate if it hasn't already happened during cloning.
+:::
+
+## Troubleshooting
+
+If you encounter any issues:
+
+- Make sure you're using your GitHub username correctly
+- If Git asks for your password and doesn't open a browser, make sure you enter your GitHub account password
+- If you see an error about authentication, try restarting your computer and trying again
+- Check that you have a working internet connection
+- If you're still having trouble, ask your teacher for help
+
+## Next Steps
+
+Now that you have Git installed and configured, you're ready to start using it for your projects!
+
+| Command | Description |
+|---------|------------|
+| `git clone` | Download a repository |
+| `git add` | Stage changes |
+| `git commit` | Save changes locally |
+| `git push` | Upload changes to GitHub |
+
+::: {.callout-tip}
+Happy coding!
+:::

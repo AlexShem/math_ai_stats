@@ -1,0 +1,118 @@
+## Formulas
+
+Now let's introduce the key formulas related to integrals:
+
+### Definite Integral
+
+A **definite integral** gives the exact area under a function $f(x)$ between two points $a$ and $b$:
+
+$$
+\int_a^b f(x) \, dx
+$$
+
+The symbols have specific meanings:
+
+- $\int$ is the integration symbol (an elongated S for "sum")
+- $a$ and $b$ are the limits of integration (the interval boundaries)
+- $f(x)$ is the function being integrated
+- $dx$ indicates that we're integrating with respect to $x$
+
+### Antiderivative (Indefinite Integral)
+
+An **antiderivative** or **indefinite integral** finds a function whose derivative is the integrand:
+
+$$
+\int f(x) \, dx = F(x) + C
+$$
+
+Where:
+
+- $F(x)$ is a function whose derivative equals $f(x)$: $F'(x) = f(x)$
+- $C$ is a constant (called the "constant of integration")
+
+For example, the antiderivative of $f(x) = 2x$ is $F(x) = x^2 + C$
+
+### Fundamental Theorem of Calculus
+
+The **Fundamental Theorem of Calculus** connects antiderivatives with definite integrals:
+
+$$
+\int_a^b f(x) \, dx = F(b) - F(a)
+$$
+
+Where $F(x)$ is any antiderivative of $f(x)$.
+
+This theorem is incredibly powerful: it tells us that to find the area under a curve, we can find an antiderivative and evaluate it at the endpoints of our interval.
+
+### Example: Calculate $\int_0^2 (2x) \, dx$
+
+Let's work through a step-by-step example:
+
+1. Find the antiderivative of $f(x) = 2x$:
+
+   $$F(x) = x^2 + C$$
+
+2. Apply the Fundamental Theorem of Calculus:
+
+   $$\int_0^2 2x \, dx = F(2) - F(0)$$
+
+3. Evaluate $F(x)$ at the endpoints:
+
+   $$F(2) = 2^2 + C = 4 + C$$
+
+   $$F(0) = 0^2 + C = C$$
+
+4. Subtract to find the result:
+
+   $$F(2) - F(0) = (4 + C) - C = 4$$
+
+Therefore, $\int_0^2 2x \, dx = 4$
+
+Let's verify this visually:
+
+```{python}
+#| label: fig-example-integral
+#| fig-cap: "Visualizing the integral of 2x from 0 to 2"
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+def f(x):
+    return 2*x  # Our function f(x) = 2x
+
+a, b = 0, 2  # Integration limits
+x = np.linspace(-0.5, 2.5, 1000)
+y = f(x)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(x, y, 'b', linewidth=2)
+ax.set_xlim(-0.5, 2.5)
+ax.set_ylim(-0.5, 5)
+ax.set_xlabel('x')
+ax.set_ylabel('f(x) = 2x')
+ax.grid(True, linestyle='--', alpha=0.7)
+
+# Fill the area under the curve
+ix = np.linspace(a, b)
+iy = f(ix)
+verts = [(a, 0)] + list(zip(ix, iy)) + [(b, 0)]
+poly = Polygon(verts, facecolor='orange', edgecolor='orange', alpha=0.5)
+ax.add_patch(poly)
+
+# Mark the area
+ax.text(1, 1, "Area = 4 square units", 
+        horizontalalignment='center', fontsize=14)
+
+# Add coordinate points
+ax.plot(a, f(a), 'ro')
+ax.plot(b, f(b), 'ro')
+ax.text(a-0.1, f(a)+0.2, f'({a}, {f(a)})', fontsize=12)
+ax.text(b+0.1, f(b)+0.2, f'({b}, {f(b)})', fontsize=12)
+
+ax.set_title("Integral of $f(x) = 2x$ from $x = 0$ to $x = 2$")
+plt.tight_layout()
+plt.show()
+```
+
+The area under this line forms a triangle with base 2 and height 4, giving an area of $\frac{1}{2} \times 2 \times 4 = 4$ square units, which matches our calculation.

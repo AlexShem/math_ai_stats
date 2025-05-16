@@ -1,0 +1,201 @@
+---
+title: "Estimating the Fairness of a Coin"
+author: "Aleksandr Shemendyuk"
+date: "2024-11-13"
+toc: true
+format:
+    html:
+        number-sections: false
+        toc-depth: 2
+        html-math-method: katex
+        self-contained: true
+        monofont: JetBrains Mono
+        code-overflow: scroll
+        code-tools: true
+        code-line-numbers: true
+        code-annotations: below
+jupyter: python3
+---
+
+# Estimating the Fairness of a Coin
+
+Suppose we're given a coin, but we don't know if it's fair or not. That is, we don't know whether the probability of the coin landing on heads is 50%, or if it's biased towards heads or tails. Our goal is to estimate the probability of the coin landing on heads by flipping it multiple times and analyzing the results.
+
+In this activity, we'll perform experiments by flipping the coin as many times as we wish, and we'll observe how our estimation improves as we increase the number of flips.
+
+## Step 1: Flipping the Coin a Few Times
+
+First, let's flip the coin a small number of times, say 10 times, and record the results.
+
+We'll use a function called `flip_coin` that simulates flipping the coin. This function returns `1` if the coin lands on heads, and `0` if it lands on tails.
+
+Here's the code for the `flip_coin` function:
+
+![`flip_coin()` Function Documentation](coin_flip_documentation.png)
+
+```{python}
+#| code-fold: true
+#| code-summary: coinflip.py module containing the coin flip simulation code.
+
+import numpy as np  # Import NumPy for numerical operations
+
+# Probability that the coin lands on heads (unknown to us)
+PROBABILITY_HEAD = 0.54
+
+def flip_coin(p: float = None) -> int:
+    """Random coin flip.
+
+    The function flips a coin (possibly, *unfair*) and returns:
+
+    - 1, if the coin lands on `head`,
+    - 0, if the coin lands on `tail`.
+
+    Example usage:
+
+    >>> flip = flip_coin(0.5)
+
+    Output:
+
+    >>> print(flip)
+    >>> 1  # May vary
+
+    :param p: Probability of the coin to land on `head`. Should be in [0, 1].
+    :type p: float
+    :return: (int): ``1`` if `head` and ``0`` if `tail`.
+    :rtype: int
+    """
+    if p is None:
+        p = PROBABILITY_HEAD
+
+    if p > 1.0 or p < 0.0:
+        raise ValueError(f"Parameter `p` should be in [0, 1]. Got {p} instead.")
+
+    return 1 if np.random.rand() <= p else 0
+```
+
+**Note:** In a real-world scenario, we wouldn't know the value of `PROBABILITY_HEAD`. In our simulation, it represents the true probability of the coin landing on heads, but we pretend we don't know it.
+
+Now, let's flip the coin 10 times and record the results:
+
+```{python}
+# Number of coin flips
+N_FLIPS = 10
+
+# Flip the coin N_FLIPS times
+coin_flips = [flip_coin() for _ in range(N_FLIPS)] # <1>
+
+# Calculate the estimated probability of heads
+head_probability = sum(coin_flips) / N_FLIPS
+
+print(f"Estimated probability of heads after {N_FLIPS} flips: {head_probability:.4f}")
+```
+1. Example of a list comprehension in Python to flip the coin `N_FLIPS` times and store the results in a list.
+
+With just 10 flips, our estimation might not be very accurate. Let's see how it improves as we increase the number of flips.
+
+## Step 2: Increasing the Number of Flips
+
+To improve our estimation, we can increase the number of coin flips. According to the **Law of Large Numbers**, as we increase the number of trials (coin flips), our estimated probability should get closer to the true probability.
+
+Let's perform experiments with increasing numbers of coin flips: 10, 100, 1,000, 10,000, and 100,000.
+
+For each number of flips, we'll repeat the experiment multiple times (say, 20 times) to get an average estimation, as well as the maximum and minimum estimations.
+
+Here's the code to perform these experiments:
+
+```{python}
+def run_experiments(n_flips, n_experiments, p=None):
+    """Simulate multiple coin flip experiments to estimate the probability of heads.
+
+    :param n_flips: (int): Number of coin flips per experiment.
+    :param n_experiments: (int): Number of experiments to run.
+    :param p: (float, optional): Probability of the coin landing on heads.
+
+    :return: list[float]: List of estimated probabilities from each experiment.
+    """
+    estimated_probabilities = [] # <1>
+    for _ in range(n_experiments):
+        flips = [flip_coin(p) for _ in range(n_flips)] # <2>
+        probability_estimate = sum(flips) / n_flips
+        estimated_probabilities.append(probability_estimate)
+    return estimated_probabilities
+```
+1. A list to store the estimated probabilities from each experiment.
+2. Another list comprehension to flip the coin `n_flips` times for each experiment and store the results in a list.
+
+Now, let's run the experiments:
+
+```{python}
+N_EXPERIMENTS = 20  # Number of experiments for each flip count
+n_flips_list = [10, 100, 1000, 10000, 100000]  # Different numbers of flips
+
+avg_probabilities = []
+max_probabilities = []
+min_probabilities = []
+
+for n_flips in n_flips_list:
+    # Run the experiments
+    probabilities = run_experiments(n_flips, N_EXPERIMENTS)
+    
+    # Calculate statistics
+    average_p = sum(probabilities) / N_EXPERIMENTS
+    max_p = max(probabilities)
+    min_p = min(probabilities)
+    
+    # Append to lists
+    avg_probabilities.append(average_p)
+    max_probabilities.append(max_p)
+    min_probabilities.append(min_p)
+    
+    # Print the results
+    print(f"\nEstimated probability of heads for {n_flips} flips:")
+    print(f"Average: {average_p:.4f}")
+    print(f"Maximum: {max_p:.4f}")
+    print(f"Minimum: {min_p:.4f}")
+```
+
+We can observe how the estimated probability gets closer to the true probability (which is 0.54) as we increase the number of flips. The range between the maximum and minimum estimated probabilities also becomes smaller, indicating more consistent results.
+
+## Step 3: Visualizing the Results
+
+To better understand how our estimation improves, let's plot the average, maximum, and minimum estimated probabilities for each number of flips.
+
+```{python}
+#| fig-cap: Probability Estimation Plot
+#| fig-alt: Plot showing the estimated probability of heads with different numbers of coin flips.
+
+import matplotlib.pyplot as plt  # Import Matplotlib for plotting
+
+plt.figure(figsize=(10, 6))
+plt.semilogx(n_flips_list, avg_probabilities, label='Average', marker='o')
+plt.semilogx(n_flips_list, max_probabilities, label='Maximum', linestyle='--', color='red', marker='x')
+plt.semilogx(n_flips_list, min_probabilities, label='Minimum', linestyle='--', color='green', marker='x')
+plt.xlabel('Number of Coin Flips')
+plt.ylabel('Estimated Probability of Heads')
+plt.title('Estimating the Probability of Heads with Different Numbers of Coin Flips')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+This plot shows how the average estimated probability converges towards the true probability (0.54) as we increase the number of coin flips. The maximum and minimum estimated probabilities also get closer to the average, indicating that the estimations become more consistent with more trials.
+
+## Conclusion
+
+Through this experiment, we've seen how increasing the number of coin flips improves our estimation of the coin's fairness. This demonstrates the **Law of Large Numbers**, which states that as the number of trials increases, the experimental probability approaches the theoretical probability.
+
+By flipping the coin more times, we're able to get a better estimate of the true probability of the coin landing on heads. In real-world situations, this method is fundamental in statistics and probability, helping us make predictions based on empirical data.
+
+---
+
+**Key Takeaways:**
+
+- **Experimental Probability:** The ratio of the number of times an event occurs to the total number of trials or times the activity is performed.
+- **Law of Large Numbers:** A principle of probability and statistics that states as the number of trials increases, the experimental probability will tend to get closer to the theoretical (true) probability.
+- **Simulation:** Using random sampling to model and study the behavior of real-world systems or processes.
+
+**Questions for Further Thought:**
+
+1. How would the results change if the coin were fair (probability of heads is 0.5)?
+2. What happens if we use a biased coin with a much higher or lower probability of landing on heads?
+3. How can this experiment help us understand real-world applications like polling or predicting outcomes based on samples?

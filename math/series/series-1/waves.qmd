@@ -1,0 +1,518 @@
+---
+title: "Trigonometry with Sine and Cosine Functions: Series 1"
+subtitle: "Understanding Transformations and Plotting in Python"
+toc: true
+toc-depth: 2
+format: 
+  html:
+    number-sections: true
+    html-math-method: katex
+    self-contained: true
+    code-overflow: wrap
+    code-tools: true
+    code-link: true
+  pdf:
+    number-sections: true
+    include-in-header: 
+      text: |
+        \usepackage[headsepline]{scrlayer-scrpage}
+        \usepackage{fontspec}
+        \ihead{Trigonometry Series 1}
+        \chead{}
+        \ohead{\headmark}
+        \automark{section}
+    papersize: a4
+format-links: false
+jupyter: python3
+---
+
+# Exercises
+
+In this series of exercises, we will apply our knowledge of trigonometry and Python programming to work with sine and cosine functions, exploring their transformations using amplitude, frequency, and phase shift.
+
+We will use Python libraries such as **NumPy** for numerical computations and **Matplotlib** for plotting graphs.
+
+Let's get started!
+
+## Exercise 1: Defining a Sine Function with Transformations
+
+**Question**
+
+Create a Python function named `my_sin` that calculates the sine of a value `x` with a given `amplitude`, `frequency`, and `phase_shift`. Use the `NumPy` library to perform the calculations.
+
+- Define the function `my_sin(x, amplitude, frequency, phase_shift)`.
+- The function should return `y = amplitude * np.sin(frequency * x + phase_shift)`.
+
+::: {.callout .callout-info}
+
+*Example of defining a Python function:*
+
+```python
+def function_name(parameters):
+    # Function body
+    return result
+```
+
+:::
+
+::: {.content-visible when-format="pdf"}
+
+```{python}
+# Define your my_sin function here
+```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+```{python}
+def my_sin(x, amplitude=1.0, frequency=1.0, phase_shift=0.0):
+    y = amplitude * np.sin(frequency * x + phase_shift)
+    return y
+```
+
+:::
+
+---
+
+## Exercise 2: Plotting a Transformed Sine Wave
+
+**Question**
+
+Using the `my_sin` function you just created, plot a sine wave with the following parameters:
+
+- **Amplitude**: 1.5
+- **Frequency**: 2
+- **Phase Shift**: $\frac{\pi}{3}$
+
+Instructions:
+
+- Import necessary libraries (`numpy` and `matplotlib`).
+- Create an array `x` from 0 to $2\pi$ with 1001 points.
+- Calculate `y` using your `my_sin` function.
+- Plot the resulting wave using `Matplotlib`.
+
+::: {.callout .callout-info}
+
+*Hint:* Use `np.linspace(0, 2 * np.pi, 1001)` to create the `x` array.
+
+*Example of plotting in Python:*
+
+```python
+import matplotlib.pyplot as plt
+
+plt.plot(x, y)
+plt.show()
+```
+
+:::
+
+::: {.content-visible when-format="pdf"}
+
+```{python}
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create x array
+# x = ?
+
+# Use your my_sin function to calculate y
+# y = ?
+
+# Plot the wave
+# plt.plot(x, y)
+# plt.show()
+```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create x array
+x = np.linspace(0.0, 2 * np.pi, 1001)
+
+# Use your my_sin function
+amplitude = 1.5
+frequency = 2
+phase_shift = np.pi / 3
+
+y = my_sin(x, amplitude, frequency, phase_shift)
+
+# Plot the wave
+plt.plot(x, y, label='Transformed Sine Wave')
+plt.title(f'Sine Wave with Amplitude {amplitude}, Frequency {frequency}, Phase Shift {phase_shift:.2f}')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+```
+
+:::
+
+---
+
+## Exercise 3: Observing the Effect of Changing Parameters
+
+**Question**
+
+Experiment with changing the `amplitude`, `frequency`, and `phase_shift` values in your `my_sin` function. For each parameter, keep the other two constant and observe how the graph changes.
+
+Instructions:
+
+- Import necessary libraries (`numpy` and `matplotlib`).
+- Create an array `x` from 0 to $2\pi$ with 1001 points.
+- Set up three separate plots:
+
+  1. **Amplitude Variation**:
+     - Use amplitude values of 0.5, 1, 2.
+     - Keep frequency = 1, phase_shift = 0.
+
+  2. **Frequency Variation**:
+     - Use frequency values of 0.5, 1, 2.
+     - Keep amplitude = 1, phase_shift = 0.
+
+  3. **Phase Shift Variation**:
+     - Use phase_shift values of 0, $\frac{\pi}{4}$, $\frac{\pi}{2}$.
+     - Keep amplitude = 1, frequency = 1.
+
+- For each plot, use a `for` loop to iterate over the varying parameter values.
+- Plot each set of waves on the same graph for comparison.
+
+::: {.callout .callout-info}
+
+*Example of using a `for` loop in Python:*
+
+```python
+values = [value1, value2, value3]
+for value in values:
+    # Code to execute for each value
+    result = some_function(value)
+    # Print the result to the console
+    print(result)
+```
+
+In this example, the `for` loop goes through each `value` in the `values` list and executes the code block indented under the `for` statement.
+
+:::
+
+::: {.content-visible when-format="pdf"}
+
+```{python}
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create x array
+x = np.linspace(0.0, 2 * np.pi, 1001)
+
+# Amplitude Variation
+amplitudes = [0.5, 1, 2]
+for amplitude in amplitudes:
+    # Calculate y using my_sin function
+    # y = ?
+    # Plot the wave
+    # plt.plot(x, y, label=f'Amplitude = {amplitude}')
+    pass  # Replace with your code
+
+# Add title, labels, and legend
+# plt.title('Effect of Changing Amplitude')
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.legend()
+# plt.show()
+
+# Repeat the above steps for Frequency Variation and Phase Shift Variation
+```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0.0, 2 * np.pi, 1001)
+
+# Amplitude Variation
+plt.figure()
+amplitudes = [0.5, 1, 2]
+for amplitude in amplitudes:
+    y = my_sin(x, amplitude, frequency=1, phase_shift=0)
+    plt.plot(x, y, label=f'Amplitude = {amplitude}')
+plt.title('Effect of Changing Amplitude')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+
+# Frequency Variation
+plt.figure()
+frequencies = [0.5, 1, 2]
+for frequency in frequencies:
+    y = my_sin(x, amplitude=1, frequency=frequency, phase_shift=0)
+    plt.plot(x, y, label=f'Frequency = {frequency}')
+plt.title('Effect of Changing Frequency')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+
+# Phase Shift Variation
+plt.figure()
+phase_shifts = [0, np.pi / 4, np.pi / 2]
+for phase_shift in phase_shifts:
+    y = my_sin(x, amplitude=1, frequency=1, phase_shift=phase_shift)
+    plt.plot(x, y, label=f'Phase Shift = {phase_shift:.2f}')
+plt.title('Effect of Changing Phase Shift')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+```
+
+:::
+
+---
+
+## Exercise 4: Combining Waves
+
+**Question**
+
+Create two waves and sum them together:
+
+- **Wave A**: Sine wave with amplitude 1, frequency 1, phase shift 0.
+- **Wave B**: Sine wave with amplitude 0.5, frequency 5, phase shift 0.
+
+Instructions:
+
+- Use your `my_sin` function to calculate `wave_a` and `wave_b`.
+- Sum the two waves to get `wave_combined = wave_a + wave_b`.
+- Plot all three waves (`wave_a`, `wave_b`, and `wave_combined`) on the same graph.
+- Label each wave appropriately.
+
+::: {.content-visible when-format="pdf"}
+
+```{python}
+# Import necessary libraries
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create x array
+x = np.linspace(0.0, 2 * np.pi, 1001)
+
+# Calculate wave_a using my_sin function
+# wave_a = ?
+
+# Calculate wave_b using my_sin function
+# wave_b = ?
+
+# Sum the two waves
+# wave_combined = ?
+
+# Plot the waves
+# plt.plot(x, wave_a, label='Wave A')
+# plt.plot(x, wave_b, label='Wave B')
+# plt.plot(x, wave_combined, linestyle='--', label='Combined Wave')
+# plt.title('Combining Two Sine Waves')
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.legend()
+# plt.show()
+```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0.0, 2 * np.pi, 1001)
+
+# Wave A
+wave_a = my_sin(x, amplitude=1, frequency=1, phase_shift=0)
+
+# Wave B
+wave_b = my_sin(x, amplitude=0.5, frequency=5, phase_shift=0)
+
+# Sum of Waves
+wave_combined = wave_a + wave_b
+
+# Plotting
+plt.plot(x, wave_a, label='Wave A')
+plt.plot(x, wave_b, label='Wave B')
+plt.plot(x, wave_combined, linestyle='--', label='Combined Wave')
+plt.title('Combining Two Sine Waves')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+```
+
+:::
+
+---
+
+## Exercise 5: Exploring the Effect of Phase Shift in Wave Combination
+
+**Question**
+
+Adjust the `phase_shift` of **Wave B** in Exercise 4 to $\frac{\pi}{2}$ and observe how the combined wave changes.
+
+Instructions:
+
+- Recalculate `wave_b` with `phase_shift = np.pi / 2`.
+- Sum the new `wave_b` with `wave_a` to get `wave_combined_shifted = wave_a + wave_b`.
+- Plot the new combined wave and compare it to the previous one.
+- Discuss how the phase shift affects the resulting wave.
+
+::: {.content-visible when-format="pdf"}
+
+```{python}
+# Recalculate wave_b with phase shift of pi/2
+# wave_b = ?
+
+# Sum the new waves
+# wave_combined_shifted = ?
+
+# Plot the new combined wave
+# plt.plot(x, wave_a, label='Wave A')
+# plt.plot(x, wave_b, label='Wave B with Phase Shift $\\pi/2$')
+# plt.plot(x, wave_combined_shifted,
+#          linestyle='--', label='Combined Sine Wave with Phase Shift')
+# plt.title('Effect of Phase Shift on Combined Sine Wave')
+# plt.xlabel('x')
+# plt.ylabel('y')
+# plt.legend()
+# plt.show()
+```
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+```{python}
+# New Wave B with Phase Shift
+wave_b_shifted = my_sin(x, amplitude=0.5, frequency=5, phase_shift=np.pi / 2)
+
+# New Sum of Waves
+wave_combined_shifted = wave_a + wave_b_shifted
+
+# Plotting
+plt.plot(x, wave_a, label='Wave A')
+plt.plot(x, wave_b_shifted, label='Wave B with Phase Shift $\\pi/2$')
+plt.plot(x, wave_combined_shifted, linestyle='--', label='Combined Sine Wave with Phase Shift')
+plt.title('Effect of Phase Shift on Combined Sine Wave')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
+```
+
+:::
+
+---
+
+## Exercise 6: Researching Online References
+
+**Question**
+
+Find online resources that explain the `NumPy` and `Matplotlib` libraries and how they are used for mathematical computations and plotting in Python.
+
+Instructions:
+
+- Search for tutorials on `NumPy` and `Matplotlib`.
+- List at least two resources for each library.
+- Briefly describe what you can learn from each resource.
+
+::: {.content-visible when-format="pdf"}
+
+*Write your answers below:*
+
+**NumPy Resources:**
+
+1. **Resource Name**
+   - *Link*:
+   - *Description*:
+
+2. **Resource Name**
+   - *Link*:
+   - *Description*:
+
+**Matplotlib Resources:**
+
+1. **Resource Name**
+   - *Link*:
+   - *Description*:
+
+2. **Resource Name**
+   - *Link*:
+   - *Description*:
+
+:::
+
+::: {.content-visible when-format="html"}
+
+**Answer**
+
+**NumPy Resources:**
+
+1. **NumPy Official Documentation**
+   - *Link*: [https://numpy.org/doc/stable/](https://numpy.org/doc/stable/)
+   - *Description*: Comprehensive guide to all NumPy functions, tutorials, and examples.
+
+2. **W3Schools NumPy Tutorial**
+   - *Link*: [https://www.w3schools.com/python/numpy_intro.asp](https://www.w3schools.com/python/numpy_intro.asp)
+   - *Description*: Beginner-friendly tutorials with examples on how to use NumPy arrays and functions.
+
+**Matplotlib Resources:**
+
+1. **Matplotlib Official Documentation**
+   - *Link*: [https://matplotlib.org/stable/users/index.html](https://matplotlib.org/stable/users/index.html)
+   - *Description*: Official documentation with tutorials on plotting, customizing graphs, and advanced features.
+
+2. **TutorialsPoint Matplotlib Tutorial**
+   - *Link*: [https://www.tutorialspoint.com/matplotlib/index.htm](https://www.tutorialspoint.com/matplotlib/index.htm)
+   - *Description*: Easy-to-follow tutorials on creating different types of plots and customizing them.
+
+:::
+
+---
+
+# Conclusion
+
+In this exercise series, we've applied our understanding of sine and cosine functions and their transformations in Python. By working through these problems, you've practiced defining functions, using `for` loops, plotting graphs, and exploring the effects of changing parameters on trigonometric functions.
+
+Keep experimenting with different values and functions to deepen your understanding of trigonometry and programming in Python.
+
+---
+
+# Additional Resources
+
+- **Understanding Sine and Cosine Functions**: [Khan Academy](https://www.khanacademy.org/math/trigonometry)
+- **Python Programming Basics**: [Python Official Documentation](https://docs.python.org/3/tutorial/index.html)
+- **NumPy Library Guide**: [NumPy User Guide](https://numpy.org/doc/stable/user/index.html)
+- **Matplotlib Plotting Guide**: [Matplotlib Tutorials](https://matplotlib.org/stable/tutorials/index.html)
+
+---
+
+# Acknowledgments
+
+We hope this series has helped you understand how to apply trigonometric concepts using Python. Keep practicing, and don't hesitate to explore more about programming and mathematics!

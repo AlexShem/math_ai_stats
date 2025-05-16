@@ -1,0 +1,12 @@
+## Introduction
+
+**Topic:** Integrals and the area under a graph  
+**Goal:** Understand what an integral is, how it is related to the area under a curve, and how it is used in real life.
+
+Have you ever wondered:
+
+- How can we find the distance a car travels if we know its speed at every moment?
+- What does it mean to find the area under a wiggly line?
+- How do we calculate the total amount of water flowing through a pipe when the flow rate changes constantly?
+
+These are all questions that can be answered using integrals, one of the fundamental concepts in calculus. In this document, we'll explore what integrals are, how they work, and how they can be applied to real-world problems.
