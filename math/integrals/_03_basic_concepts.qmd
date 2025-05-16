@@ -1,0 +1,78 @@
+## Basic Concepts
+
+Before diving deeper into integrals, let's ensure we understand some key concepts:
+
+### Functions
+
+A **function** is a rule that assigns one output to each input. We often write functions in the form $y = f(x)$, where:
+
+- $x$ is the input (independent variable)
+- $f(x)$ is the output (dependent variable)
+- $f$ is the rule that transforms the input into the output
+
+For example, the function $f(x) = x^2$ takes any number $x$ and squares it to produce the output.
+
+### Intervals
+
+An **interval** is a range of values that we're interested in. For integration, we typically use a closed interval $[a, b]$ that includes all values of $x$ from $a$ to $b$, including the endpoints.
+
+For example, $[0, 5]$ represents all values from 0 to 5, including 0 and 5.
+
+### Area Under the Graph
+
+The **area under the graph** refers to the region between:
+
+- The curve represented by the function $f(x)$
+- The $x$-axis
+- The vertical lines at $x = a$ and $x = b$
+
+This area is what we calculate using a definite integral.
+
+```{python}
+#| label: fig-area-under-curve
+#| fig-cap: "Area under a curve between two points"
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+def f(x):
+    return 0.5*x**2 + 1  # A simple quadratic function
+
+a, b = 1, 3  # Our interval
+x = np.linspace(0, 4, 1000)
+y = f(x)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(x, y, 'b', linewidth=2)
+ax.set_xlim(0, 4)
+ax.set_ylim(0, f(4))
+ax.set_xlabel('x')
+ax.set_ylabel('f(x)')
+
+# Fill the area under the curve
+ix = np.linspace(a, b)
+iy = f(ix)
+verts = [(a, 0)] + list(zip(ix, iy)) + [(b, 0)]
+poly = Polygon(verts, facecolor='green', edgecolor='green', alpha=0.4)
+ax.add_patch(poly)
+
+# Add labels for interval endpoints
+ax.plot([a, a], [0, f(a)], 'k--')
+ax.plot([b, b], [0, f(b)], 'k--')
+ax.text(a, -0.5, 'a', fontsize=12)
+ax.text(b, -0.5, 'b', fontsize=12)
+
+ax.text((a+b)/2, f((a+b)/4), "Area = $\\int_a^b f(x) \\, dx$", 
+        horizontalalignment='center', fontsize=14)
+
+ax.set_title("Area Under the Curve from $x = a$ to $x = b$")
+plt.tight_layout()
+plt.show()
+```
+
+In the context of our earlier car example:
+
+- The function represents the car's speed at each moment in time
+- The interval is the time period we're interested in
+- The area gives us the total distance traveled during that time period

@@ -1,0 +1,135 @@
+## Real-Life Example
+
+Let's walk through a complete real-life example to demonstrate how integrals are used in practice.
+
+### Scenario: Estimating Fuel Usage of a Car
+
+Imagine you're driving on a trip and want to estimate how much fuel your car will use. The fuel consumption rate varies depending on your speed and road conditions.
+
+Let's say the fuel consumption rate (in liters per hour) is given by the function:
+
+$$
+f(t) = 3 + 0.5\sin(t) + 0.2t
+$$
+
+Where $t$ is the time in hours since you started driving.
+
+### Step 1: Understand what we're calculating
+
+We want to find the total fuel used over a 4-hour journey. Since fuel consumption rate is given in liters per hour, we need to find:
+
+$$
+\text{Total Fuel} = \int_{0}^{4} f(t) \, dt
+$$
+
+### Step 2: Visualize the consumption rate
+
+First, let's see how the fuel consumption rate changes over time:
+
+```{python}
+#| label: fig-fuel-rate
+#| fig-cap: "Fuel consumption rate over time"
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.patches import Polygon
+
+def fuel_rate(t):
+    return 3 + 0.5*np.sin(t) + 0.2*t  # Fuel consumption in liters/hour
+
+t = np.linspace(0, 4, 1000)  # Time in hours
+rate = fuel_rate(t)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(t, rate, 'g', linewidth=2)
+ax.set_xlim(0, 4)
+ax.set_ylim(0, 5)
+ax.set_xlabel('Time (hours)')
+ax.set_ylabel('Fuel Consumption (liters/hour)')
+ax.grid(True, linestyle='--', alpha=0.7)
+
+# Fill the area under the curve
+verts = [(0, 0)] + list(zip(t, rate)) + [(4, 0)]
+poly = Polygon(verts, facecolor='green', edgecolor='green', alpha=0.3)
+ax.add_patch(poly)
+
+ax.text(2, 1, "Total Fuel = Area Under Curve", 
+        horizontalalignment='center', fontsize=14)
+
+ax.set_title("Fuel Consumption Rate Over Time")
+plt.tight_layout()
+plt.show()
+```
+
+### Step 3: Calculate the integral
+
+To find the total fuel used, we need to integrate the fuel rate function over the 4-hour journey.
+
+For this function $f(t) = 3 + 0.5\sin(t) + 0.2t$, we can find the antiderivative:
+
+$$
+F(t) = 3t - 0.5\cos(t) + 0.1t^2 + C
+$$
+
+Now we can apply the Fundamental Theorem of Calculus:
+
+$$
+\int_{0}^{4} f(t) \, dt = F(4) - F(0)
+$$
+
+Let's compute $F(4)$ and $F(0)$:
+
+$$
+F(4) = 3(4) - 0.5\cos(4) + 0.1(4)^2 + C = 12 - 0.5\cos(4) + 1.6 + C
+$$
+
+$$
+F(0) = 3(0) - 0.5\cos(0) + 0.1(0)^2 + C = 0 - 0.5(1) + 0 + C = -0.5 + C
+$$
+
+Therefore:
+
+$$
+F(4) - F(0) = [12 - 0.5\cos(4) + 1.6 + C] - [-0.5 + C]
+$$
+
+$$
+= 12 - 0.5\cos(4) + 1.6 + 0.5
+$$
+
+$$
+= 14.1 - 0.5\cos(4)
+$$
+
+Since $\cos(4) \approx -0.654$, we get:
+
+$$
+F(4) - F(0) \approx 14.1 - 0.5(-0.654) \approx 14.1 + 0.327 \approx 14.427
+$$
+
+```{python}
+#| label: calc-fuel-integral
+#| fig-cap: "Calculating the fuel consumption integral"
+
+import numpy as np
+from scipy import integrate
+
+def fuel_rate(t):
+    return 3 + 0.5*np.sin(t) + 0.2*t
+
+# Calculate the integral numerically
+total_fuel, error = integrate.quad(fuel_rate, a=0, b=4)
+
+print(f"Total fuel consumed over 4 hours: {total_fuel:.3f} liters")
+```
+
+### Step 4: Interpret the result
+
+Our calculation shows that over the 4-hour journey, the car will use approximately 14.43 liters of fuel.
+
+If we compare this to the constant consumption that would occur if the car used fuel at its average rate:
+
+- Average rate ≈ 3.5 liters/hour
+- Total for 4 hours at constant rate = 3.5 × 4 = 14 liters
+
+The actual consumption is slightly higher due to the varying consumption rate. This demonstrates why integration is necessary for accurate calculations when working with variables that change over time.
