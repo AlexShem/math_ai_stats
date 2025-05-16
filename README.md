@@ -64,6 +64,44 @@ Many examples in this repository are written in Python. To run them:
 python probability/coin_flip/coin_flipping_experiment.py
 ```
 
+### Setting Up a Python Virtual Environment
+
+It's recommended to use a virtual environment to manage Python dependencies. This keeps your project dependencies isolated from your system Python installation.
+
+#### Creating a Virtual Environment
+
+To create and activate a virtual environment:
+
+```bash
+# Navigate to the repository root
+cd math_ai_stats
+
+# Create the virtual environment
+python -m venv .venv
+
+# Activate the virtual environment (Windows)
+.\.venv\Scripts\Activate
+
+# Activate the virtual environment (Linux/macOS)
+# source .venv/bin/activate
+```
+
+#### Installing Dependencies
+
+Once the virtual environment is activated, you can install required packages:
+
+```bash
+pip install -r requirements.txt  # If a requirements.txt file exists
+# Or install specific packages as needed
+pip install jupyter numpy matplotlib pandas
+```
+
+When you're done working with the virtual environment, you can deactivate it:
+
+```bash
+deactivate
+```
+
 ### Viewing Documentation
 
 The repository contains HTML files rendered from Quarto (`.qmd`) documents. You can:
