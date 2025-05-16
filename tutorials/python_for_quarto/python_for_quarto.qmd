@@ -1,0 +1,225 @@
+---
+title: "Installing Python 3.12 on Windows 11 for Quarto in VS Code"
+author: "Professor Alex"
+date: "2025-05-02"
+format:
+   html:
+      toc: true
+      toc-depth: 3
+      toc-location: right
+      toc-expand: true
+      embed-resources: true
+      code-fold: true
+      code-tools: true
+      monofont: JetBrains Mono
+jupyter: python3
+---
+
+Quarto allows you to embed Python code in your Markdown documents, but it requires a properly installed Python environment. This tutorial will walk you through installing Python **3.12** on Windows 11 from the official Python website, configuring your system PATH, and setting up everything to render Quarto (`.qmd`) documents with Python code in Visual Studio Code. We will also cover how to verify the installation, install necessary packages (like NumPy), troubleshoot common issues (e.g. Quarto not detecting Python or missing packages), and provide an optional appendix on using virtual environments.
+
+# Step 1: Download and Install Python 3.12 from Python.org
+
+1. **Download the Python 3.12 installer:** Visit the [official Python downloads page](https://www.python.org/downloads/) and click the download link for the latest Python 3.12.x release for Windows. Choose the Windows installer (64-bit) for Python 3.12.
+
+   ![Python 3.12.10 website](./assets/01_python_download.png)
+
+   ![Python 3.12.10 installer](./assets/01_python_installer.png)
+
+2. **Run the installer:** Once downloaded, double-click the installer (e.g. `python-3.12.X-amd64.exe`). On the first setup screen, **tick the box labeled “Add python.exe to PATH”**. This step is crucial – it ensures that the Python interpreter and pip are added to your system’s PATH, allowing you to use the `python` and `pip` commands from any terminal. (Also leave “Install launcher for all users” checked if it’s available.)
+
+   ![Python 3.12.10: Add to PATH](./assets/02_python_PATH.png)
+
+3. **Install Python:** Click **Install Now**. The installer will proceed with the default settings (including installing pip and documentation). If prompted by User Account Control for permission, allow it to make changes. The installation should only take a minute or so.
+4. **Complete the installation:** After the installer finishes, you may see an option to **“Disable path length limit”** – it’s generally safe to accept this to avoid issues with long paths. Finally, click **Close** to exit the installer. Python 3.12 is now installed on your system.
+
+# Step 2: Verify the Python and pip Installation
+
+After installation, verify that Windows recognises the new Python:
+
+1. **Open a terminal:** Press [Windows]+[R], type `cmd` (for Command Prompt) or open **Windows Terminal** (PowerShell).
+
+   ![Teminal search](.\assets\03_terminal_search.png)
+
+2. **Check the Python version:** Enter the command:
+
+   ```bash
+   python --version
+   ```
+
+   This should output Python 3.12.x (for example, `Python 3.12.10`). If you see an error like “Python is not recognized”, it means the PATH was not set correctly. In that case, return to the installer to modify or manually add Python to your PATH.
+
+   ![Python Version](.\assets\03_python_version.png)
+
+3. **Check pip:** Similarly, check that pip is available by running:
+
+   ```bash
+   pip --version
+   ```
+
+   You should see a version number for pip along with Python 3.12 in the output. Having `python` and `pip` accessible confirms that the “Add to PATH” option worked. For example, you might see `pip 25.x.y from C:\Users\YourName\AppData\... (python 3.12)`.
+
+   ![Pip version](.\assets\03_terminal_pip_version.png)
+
+If both commands report versions without error, Python is installed correctly and ready to use.
+
+# Step 3: Install Required Python Packages for Quarto
+
+With Python set up, we need to install some packages so that Quarto can execute Python code and any libraries your Quarto document might use:
+
+1. **Upgrade pip (optional):** It’s often a good idea to make sure pip itself is up to date. Run:
+
+   ```bash
+   python -m pip install --upgrade pip
+   ```
+
+   (This step is optional but recommended.)
+
+   ![Upgrade pip](./assets/03_pip_upgrade.png)
+
+2. **Install Jupyter:** Quarto uses Jupyter under the hood to run Python code. Install the Jupyter components by running:
+
+   ```bash
+   pip install jupyter
+   ```
+
+   Installing the `jupyter` package will provide *everything required* to execute Python code via Jupyter kernels in Quarto. This will install necessary tools like the Jupyter client (`nbclient`) and kernel.
+
+   ![Install Jupyter](.\assets\03_install_jupyter.png)
+
+3. **Install other packages (e.g. NumPy):** If your Quarto document uses specific Python libraries, you need to install them in this environment. For example, to install NumPy run:
+
+   ```bash
+   pip install numpy
+   ```
+
+   You can install any other packages (pandas, matplotlib, etc.) similarly using pip.
+
+   ![Install NumPy](.\assets\03_install_numpy.png)
+
+4. **Verify package installation:** You can verify that packages are installed by importing them in a Python REPL or running `pip list`. For example, run
+
+   ```bash
+   python -c "import numpy; print(numpy.__version__)"
+   ```
+
+   to ensure no import errors occur.
+
+   ![NumPy version](.\assets\03_numpy_version.png)
+
+After this, your Python environment has Jupyter and your desired packages. Quarto should be able to utilise this environment for rendering.
+
+# Step 4: Render a Test Quarto Document with Python
+
+Now that Python is installed and configured, let's test Quarto by rendering a document with Python code:
+
+1. **Create a Quarto document:** Open VS Code and create a new file named **`test.qmd`** (ensure the extension is lowercase `.qmd`). Add the following content to the file:
+
+   ````quarto
+   ---
+   title: "matplotlib demo"
+   format:
+      html:
+         code-fold: true
+   jupyter: python3
+   ---
+
+   For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+   ```{{python}}
+   #| label: fig-polar
+   #| fig-cap: "A line plot on a polar axis"
+
+   import numpy as np
+   import matplotlib.pyplot as plt
+
+   r = np.arange(0, 2, 0.01)
+   theta = 2 * np.pi * r
+   fig, ax = plt.subplots(
+      subplot_kw = {'projection': 'polar'} 
+   )
+   ax.plot(theta, r)
+   ax.set_rticks([0.5, 1, 1.5, 2])
+   ax.grid(True)
+   plt.show()
+   ```
+   
+   ````
+
+2. **Render the document:** In VS Code, use the Command Palette to run **Quarto: Render** (or **Quarto: Preview** for a live preview). Alternatively, you can render via terminal by navigating to the file’s directory and running:
+
+   ```bash
+   quarto render test.qmd
+   ```
+
+   Quarto will execute the Python chunk and render the document to the specified format (HTML by default).
+3. **View the results:** If the render succeeds, you should see no errors in the Quarto output. Open the generated HTML file (or view the VS Code preview) to confirm it includes the output from the Python code (e.g. the NumPy version printed). This means Quarto found Python and the NumPy package during rendering.
+
+   ![HTML output](.\assets\04_html_render.png)
+
+If the document renders successfully with the Python output, your setup is correct. You can now author Quarto `.qmd` files that include Python code.
+
+:::{.callout-tip}
+With these steps complete, you should have a fully working Python setup integrated with Quarto in VS Code. You can now create Quarto documents that seamlessly run Python code chunks and produce the expected output. Happy coding!
+:::
+
+# Troubleshooting Common Problems
+
+Even after following the steps, you might encounter some issues. Here’s how to address common problems:
+
+## Quarto Cannot Find Python
+
+If Quarto reports an error like *“Unable to locate an installed version of Python 3.”* when you try to render or when running
+
+```bash
+quarto check
+```
+
+it means Quarto cannot detect your Python installation. Common causes and solutions:
+
+- **Python not on PATH:** Ensure you checked “Add python.exe to PATH” during installation. If you skipped this, you can re-run the Python installer, choose **Modify**, and enable that option (then reboot your terminal).
+- **Microsoft Store Python issues:** If you installed Python via the Microsoft Store, Quarto might not detect it properly. The Store installation is sandboxed, and although it adds a `python` command, it may not be fully accessible to Quarto. The recommended solution is to uninstall the Store version and reinstall Python using the official installer from python.org. This ensures a standard installation that Quarto can find.
+- **Multiple Python versions:** Having multiple Python installations can confuse Quarto (it may be finding a different version than you expect). Quarto by default selects a Python via the Python Launcher on Windows or the first one on the system PATH. To avoid ambiguity, you can explicitly tell Quarto which Python to use. One way is by setting the environment variable **`QUARTO_PYTHON`** to the full path of the desired `python.exe`. You can find the path to your Python executable by running this command in PowerShell (terminal):
+
+   ```powershell
+   Get-Command python | Select-Object -ExpandProperty Source
+   ```
+
+   This will output something like `C:\Users\YourUserName\AppData\Local\Programs\Python\Python312\python.exe`.
+   
+   You can then set `QUARTO_PYTHON` to this path, for example: `QUARTO_PYTHON="C:\Users\YourUserName\AppData\Local\Programs\Python\Python312\python.exe"` in your environment before rendering. This forces Quarto to use that specific Python interpreter.
+
+After addressing the above, run `quarto check jupyter` to see if Quarto now detects Python. It should report a Python version and say that Jupyter is available. Once Quarto recognises Python, try rendering your document again.
+
+## Python Packages Not Found During Rendering
+
+You might encounter errors in Quarto rendering like `ModuleNotFoundError: No module named 'X'` (where X is a package you installed via pip). This means Quarto’s execution environment isn’t finding the package. Possible reasons:
+
+- **Package installed in a different Python environment:** Make sure that you installed the package using the same Python interpreter that Quarto is using. If you have more than one Python, the `pip` command might have installed the library to a different Python’s site-packages. To be sure, use the explicit command `python -m pip install <package>` (which uses the Python on PATH). Verify by checking `pip show <package>` or trying an import in that Python.
+- **Windows Store Python path quirk:** If you used the Microsoft Store Python, there is a known quirk where pip installs packages to a directory that isn’t on the PATH for executables. In such cases, you might have installed packages successfully, but tools like Jupyter or the package’s command-line entry points aren’t found. For instance, the Store Python keeps scripts in a path under your user AppData (e.g. `...Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\Scripts`), which is not added to PATH. Quarto may fail to find `jupyter` or other tools in this scenario. The fix (aside from using the python.org installer) is to manually add that Scripts directory to your PATH so that commands like `jupyter` become available system-wide.
+- **Jupyter not installed:** If you skipped installing Jupyter, Quarto might not be able to execute Python code. Make sure you have installed the `jupyter` package as in Step 3. Without it, you could see errors about `nbclient` or `matplotlib_inline` missing when rendering. Installing Jupyter (or at least installing the `nbclient` and `matplotlib-inline` packages) resolves those errors.
+
+After installing missing packages or adjusting your PATH, try rendering the Quarto document again. It should now find all the required modules.
+
+# Appendix: Using Virtual Environments (Optional) {.appendix}
+
+While installing packages globally as above works, you may prefer to use a Python virtual environment for isolation. Virtual environments allow you to keep project-specific dependencies separate from your system Python installation.
+
+**Creating and activating a virtual environment:**
+
+1. **Create a venv:** Open a terminal in your project folder and run:
+
+   ```bash
+   python -m venv .venv
+   ```
+
+   This creates a subdirectory `.venv` containing a fresh Python 3.12 environment. The leading dot makes it a hidden folder, which is the recommended convention for virtual environments.
+2. **Activate the venv:**
+
+   * If you're using Command Prompt, run: `.venv\Scripts\activate.bat`
+   * If you're using PowerShell (the default in VS Code), run: `.venv\Scripts\Activate.ps1`
+
+   Once activated, your terminal prompt will change (showing `(.venv)`), and any `python` or `pip` will now refer to this environment's interpreter.
+3. **Install packages in the venv:** Use pip as before (while the venv is activated) to install Jupyter and any needed libraries (e.g., `pip install jupyter numpy pandas` etc.). These will be installed in the venv's site-packages.
+4. **Use the venv in VS Code/Quarto:** VS Code should automatically discover the virtual environment if it's in your workspace folder (named `.venv`). You can also manually select the interpreter by using the **Python: Select Interpreter** command in VS Code and choosing the Python from your `.venv/Scripts` directory. Once VS Code is using the venv's Python, the Quarto extension will execute code using that environment. (Quarto will find the active environment's Python since it's first on PATH when the venv is activated.)
+
+When you render your Quarto document now, it will use the Python and packages from the virtual environment. This approach is cleaner, as you can have a separate environment per project. Just remember to activate the environment whenever you work on that project (or open VS Code in that folder, which will auto-activate the venv if detected).
