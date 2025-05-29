@@ -1,0 +1,564 @@
+---
+title: "Quarto Installation Guide for Python Users"
+author: "Professor Alex"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+    theme: cosmo
+    highlight-style: github
+    code-block-bg: true
+    code-block-border-left: "#31BAE9"
+    code-copy: true
+    fig-responsive: true
+    monofont: JetBrains Mono
+---
+
+This guide will walk you through installing **Quarto** on your Windows computer and setting it up to work with **Python** for creating beautiful documents, presentations, and websites. Follow these steps carefully!
+
+## What is Quarto?
+
+Before we dive into the installation process, let's understand what Quarto is and why it's an incredibly powerful tool for students and professionals.
+
+### Understanding Quarto
+
+Quarto is an **open-source scientific and technical publishing system** built on Pandoc. Think of it as a super-powered document creation tool that allows you to:
+
+- Combine narrative text (written in Markdown) with executable code
+- Create documents, presentations, websites, and books
+- Generate multiple output formats (HTML, PDF, Word, PowerPoint) from a single source
+- Integrate code from Python, R, Julia, and Observable JavaScript
+
+### Why Should You Use Quarto?
+
+As a student working with data and code, Quarto offers several compelling advantages:
+
+- **Reproducible Research**: Your code, results, and explanations are all in one place, making your work transparent and reproducible
+- **Beautiful Output**: Create professional-looking documents with minimal effort
+- **Multiple Formats**: Generate HTML pages, PDFs, presentations, and more from the same source file
+- **Code Integration**: Execute Python code directly in your documents and include the results automatically
+- **Version Control Friendly**: Quarto files (`.qmd`) are plain text, making them perfect for Git version control
+
+### How Quarto Works with Python
+
+Here's the typical workflow when using Quarto with Python:
+
+1. **Write your document** in a `.qmd` file using Markdown syntax
+2. **Add Python code blocks** that will be executed when the document is rendered
+3. **Include data analysis, visualizations, and calculations** directly in your document
+4. **Render the document** to create a polished output (HTML, PDF, etc.)
+
+Think of it like this:
+
+- Your `.qmd` file contains your story, explanations, and code
+- Quarto executes your Python code and captures the results
+- The final output combines your narrative with code results in a beautiful format
+- You can share the final document with anyone, even if they don't have Python installed
+
+### Benefits for Python Users
+
+- **Jupyter Notebook Alternative**: Create documents that are more structured than notebooks
+- **Data Science Reporting**: Perfect for creating reports that combine analysis, visualizations, and explanations
+- **Academic Writing**: Ideal for research papers, assignments, and presentations that include code
+- **Portfolio Building**: Create impressive project documentation and case studies
+- **Collaboration**: Share findings in a format that's accessible to both technical and non-technical audiences
+
+Now that you understand why Quarto is valuable for Python users, let's get it installed on your computer.
+
+## Prerequisites: Ensure Python is Installed
+
+Before installing Quarto, we need to make sure you have Python properly installed on your Windows computer.
+
+### Check if Python is Already Installed
+
+1. Press the Windows key, type "cmd" and open Command Prompt
+2. Type the following command and press Enter:
+
+    ```powershell
+    python --version
+    ```
+
+3. If Python is installed, you should see something like `Python 3.11.5` or `Python 3.12.0` (the numbers may vary)
+
+    ![Python Version Check](./assets/images/python_version_check.png)
+
+### If Python is Not Installed
+
+If you get an error or Python is not found, you need to install Python first:
+
+1. Go to the official Python website: [https://www.python.org/downloads/](https://www.python.org/downloads/)
+2. Download the latest version of Python for Windows
+3. Run the installer and **make sure to check "Add Python to PATH"** during installation
+4. Complete the installation and restart your computer
+5. Verify the installation using the command above
+
+::: {.callout-warning}
+**Important**: Make sure to check "Add Python to PATH" during Python installation. This allows you to run Python from any command prompt.
+:::
+
+## Install Essential Python Packages
+
+Before installing Quarto, let's install the Python packages you'll commonly use with Quarto documents.
+
+### Install Jupyter
+
+Jupyter provides the backend that Quarto uses to execute Python code:
+
+```powershell
+pip install jupyter
+```
+
+### Install Data Science Packages
+
+Install the most commonly used packages for data analysis and visualization:
+
+```powershell
+pip install numpy pandas matplotlib seaborn plotly
+```
+
+### Install Additional Useful Packages
+
+These packages are helpful for various data science and analysis tasks:
+
+```powershell
+pip install scipy scikit-learn requests beautifulsoup4
+```
+
+### Verify Package Installation
+
+Check that your key packages are installed correctly:
+
+```powershell
+python -c "import pandas; print('pandas version:', pandas.__version__)"
+python -c "import matplotlib; print('matplotlib version:', matplotlib.__version__)"
+python -c "import numpy; print('numpy version:', numpy.__version__)"
+```
+
+You should see version numbers for each package without any errors.
+
+![Python Packages Verification](./assets/images/python_packages_verification.png)
+
+## Download and Install Quarto
+
+Now let's install Quarto itself. There are two main ways to install Quarto on Windows.
+
+### Method 1: Download the Windows Installer (Recommended)
+
+1. Open your web browser and go to the official Quarto website: [https://quarto.org/docs/get-started/](https://quarto.org/docs/get-started/)
+2. Click on the **"Download Quarto"** button
+3. On the download page, select **"Windows"** and download the installer
+4. The file will be named something like `quarto-[version]-win.msi`
+
+![Quarto Download Page](./assets/images/quarto_download.png)
+
+### Method 2: Install via Python pip
+
+Alternatively, you can install Quarto using pip:
+
+```powershell
+pip install quarto-cli
+```
+
+::: {.callout-note}
+The pip installation downloads the required Quarto binary files from GitHub during installation. This method is convenient but may take longer on the first install.
+:::
+
+## Install Quarto (Windows Installer Method)
+
+If you downloaded the Windows installer, follow these steps:
+
+1. Locate the downloaded `quarto-[version]-win.msi` file in your Downloads folder
+2. Right-click on the file and select **"Run as administrator"**
+3. If you see a security warning, click **"Yes"** to continue
+4. Follow the installation wizard:
+   - Accept the license agreement
+   - Choose the installation location (default is recommended)
+   - Select components (leave all defaults checked)
+   - Click **"Install"**
+5. Wait for the installation to complete
+6. Click **"Finish"** when done
+
+<!-- ![Quarto Installation Wizard](./assets/images/quarto_installer.png) -->
+
+## Verify Quarto Installation
+
+Let's make sure Quarto was installed correctly and can find Python:
+
+### Check Quarto Version
+
+1. Open Command Prompt (Windows key, type "cmd")
+2. Type the following command and press Enter:
+
+    ```powershell
+    quarto --version
+    ```
+
+3. You should see something like `1.5.57` (version numbers may vary)
+
+![Quarto Version Check](./assets/images/quarto_version_check.png)
+
+### Check Quarto Python Integration
+
+Verify that Quarto can find and use Python:
+
+```powershell
+quarto check
+```
+
+This command will show you:
+
+- Quarto version information
+- Python version and location
+- Jupyter installation status
+- Available output formats
+
+You should see output similar to:
+
+```plaintext
+[✓] Checking versions of quarto binary dependencies...
+      Pandoc version 3.1.1: OK
+      Dart Sass version 1.58.3: OK
+[✓] Checking versions of quarto dependencies......OK
+[✓] Checking Quarto installation......OK
+      Version: 1.4.550
+
+[✓] Checking basic markdown render....OK
+
+[✓] Checking Python 3 installation....OK
+      Version: 3.11.5
+      Path: C:/Users/YourUsername/AppData/Local/Programs/Python/Python311/python.exe
+      Jupyter: 5.3.0
+      Kernels: python3
+
+[✓] Checking Jupyter engine render....OK
+```
+
+<!-- ![Quarto Check Output](./assets/images/quarto_check.png) -->
+
+::: {.callout-tip}
+If you see any errors in the `quarto check` output, don't worry! The next section covers common troubleshooting steps.
+:::
+
+## Set Up Your Development Environment
+
+### Install VS Code (Recommended)
+
+Visual Studio Code provides excellent support for Quarto documents:
+
+1. Download VS Code from: [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Install it using the default settings
+3. Install the Quarto extension:
+   - Open VS Code
+   - Press `Ctrl+Shift+X` to open Extensions
+   - Search for "Quarto"
+   - Install the official [Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) by Quarto Dev
+
+![VS Code Quarto Extension](./assets/images/vscode_quarto_extension.png)
+
+### Configure VS Code for Python
+
+Make sure VS Code can find your Python installation:
+
+1. Open VS Code
+2. Press `Ctrl+Shift+P` to open the command palette
+3. Type "Python: Select Interpreter"
+4. Choose the Python installation you verified earlier
+
+## Create Your First Quarto Document
+
+Let's create a simple Quarto document to test everything is working:
+
+### Create a Test Directory
+
+1. Open Command Prompt
+2. Navigate to your Documents folder:
+
+    ```powershell
+    cd C:\Users\%USERNAME%\Documents
+    ```
+
+3. Create a new directory for Quarto projects:
+
+    ```powershell
+    mkdir QuartoProjects
+    cd QuartoProjects
+    ```
+
+### Create a Sample Document
+
+1. Open VS Code in this directory:
+
+    ```powershell
+    code .
+    ```
+
+2. Create a new file called `test.qmd`
+3. Add the following content to test Python integration:
+
+    ````quarto
+    ---
+    title: "My First Quarto Document"
+    author: "Your Name"
+    format: html
+    ---
+
+    ## Introduction
+
+    This is my first Quarto document with Python!
+
+    ## Python Code Example
+
+    ```{{python}}
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Create some sample data
+    data = {
+        'x': range(1, 11),
+        'y': [i**2 for i in range(1, 11)]
+    }
+
+    df = pd.DataFrame(data)
+    print("Sample Data:")
+    print(df.head())
+
+    # Create a simple plot
+    plt.figure(figsize=(8, 6))
+    plt.plot(df['x'], df['y'], 'bo-')
+    plt.title('Square Numbers')
+    plt.xlabel('X values')
+    plt.ylabel('Y values (X²)')
+    plt.grid(True)
+    plt.show()
+    ```
+
+    ## Conclusion
+
+    Quarto successfully executed Python code and generated this document!
+    ````
+
+### Render Your First Document
+
+1. Save the file (`Ctrl+S`)
+2. Open the terminal in VS Code (`Ctrl+J` or Terminal → New Terminal)
+3. Render the document:
+
+    ```powershell
+    quarto render test.qmd
+    ```
+
+4. If successful, you should see an HTML file created in the same directory
+5. Open the HTML file in your browser to see the rendered result
+
+<!-- ![First Quarto Document](./assets/images/first_quarto_document.png) -->
+
+::: {#fig-quarto-document layout-ncol="3"}
+
+![Part 1](./assets/images/first_quarto_document_1.png)
+
+![Part 2](./assets/images/first_quarto_document_2.png)
+
+![Part 3](./assets/images/first_quarto_document_3.png)
+
+First Quarto Document
+:::
+
+## Troubleshooting Common Issues
+
+### Issue 1: "quarto: command not found"
+
+**Solution**: The Quarto installation directory is not in your PATH.
+
+1. Find where Quarto is installed (usually `C:\Users\YourUsername\AppData\Local\Programs\Quarto\bin`)
+2. Add this directory to your Windows PATH:
+   - Press Windows key + R, type `sysdm.cpl`, press Enter
+   - Click "Advanced" then "Environment Variables"
+   - Under "User variables for YourUsername", find and select "Path", then click "Edit"
+   - Click "New" and add the Quarto bin directory
+   - Click OK to save and restart Command Prompt
+
+### Issue 2: Python not found by Quarto
+
+**Solution**: Ensure Python is properly installed and in PATH.
+
+1. Reinstall Python and make sure to check "Add Python to PATH"
+2. Or manually add Python to PATH using the same steps as above
+3. Restart Command Prompt and try `quarto check` again
+
+### Issue 3: Jupyter not found
+
+**Solution**: Install or reinstall Jupyter.
+
+```powershell
+pip install --upgrade jupyter
+```
+
+### Issue 4: Package import errors in Quarto documents
+
+**Solution**: Make sure packages are installed in the correct Python environment.
+
+```powershell
+pip list
+```
+
+If packages are missing, install them:
+
+```powershell
+pip install package_name
+```
+
+### Issue 5: Rendering fails with Python code
+
+**Solution**: Check your Python code syntax and ensure all imports are correct.
+
+1. Test your Python code in a regular Python file first
+2. Make sure all required packages are installed
+3. Check that your code blocks are properly formatted in the `.qmd` file
+
+## Advanced Configuration
+
+### Setting Up Different Output Formats
+
+You can configure Quarto to generate multiple output formats. Update your document's YAML header:
+
+```yaml
+---
+title: "My Document"
+author: "Your Name"
+format:
+  html:
+    toc: true
+    theme: cosmo
+  pdf:
+    toc: true
+  docx:
+    toc: true
+---
+```
+
+### Using Virtual Environments
+
+For more complex projects, consider using Python virtual environments:
+
+1. Create a virtual environment:
+
+    ```powershell
+    python -m venv .venv
+    ```
+
+::: {.callout-note collapse="true"}
+The `.venv` is a common name for virtual environments, which will be automatically activated when you open the project in VS Code. This directory will contain all the packages specific to this project, keeping your global Python environment clean.
+:::
+
+2. Activate it:
+
+    ```powershell
+    .venv\Scripts\activate
+    ```
+
+::: {.callout-warning collapse="true"}
+Usually, running the command above will be blocked by Windows security settings. If you encounter an error, you may need to change the execution policy. Run the following command in PowerShell as an administrator:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+:::
+
+3. Install packages in the virtual environment:
+
+    ```powershell
+    pip install jupyter pandas matplotlib seaborn
+    ```
+
+4. Use Quarto with the virtual environment active
+
+### Configuring Jupyter Kernels
+
+To use specific Python environments with Quarto:
+
+1. Install ipykernel in your environment:
+
+    ```powershell
+    pip install ipykernel
+    ```
+
+2. Register the kernel:
+
+    ```powershell
+    python -m ipykernel install --user --name=myenv
+    ```
+
+3. Specify the kernel in your Quarto document:
+
+    ```yaml
+    ---
+    title: "My Document"
+    jupyter: myenv
+    ---
+    ```
+
+## Next Steps and Best Practices
+
+### Learning Resources
+
+Now that you have Quarto installed and working, here are some resources to help you learn more:
+
+- **Official Quarto Guide**: [https://quarto.org/docs/guide/](https://quarto.org/docs/guide/)
+- **Quarto with Python**: [https://quarto.org/docs/computations/python.html](https://quarto.org/docs/computations/python.html)
+- **Example Gallery**: [https://quarto.org/docs/gallery/](https://quarto.org/docs/gallery/)
+
+### Best Practices
+
+- **Use meaningful file names**: `analysis_report.qmd` instead of `document1.qmd`
+- **Organize your projects**: Create separate folders for different projects
+- **Version control**: Use Git to track changes to your `.qmd` files
+- **Document your code**: Add explanatory text between code blocks
+- **Test code separately**: Verify your Python code works before embedding it in Quarto
+
+### Common Use Cases
+
+- **Data Analysis Reports**: Combine data exploration, visualization, and conclusions
+- **Academic Assignments**: Create professional-looking homework and project reports
+- **Presentations**: Generate slides with live code examples
+- **Research Papers**: Write papers with embedded analysis and figures
+- **Tutorials and Documentation**: Create educational materials with runnable examples
+
+## Summary
+
+Congratulations! You now have Quarto installed and configured to work with Python on your Windows computer. Here's what you've accomplished:
+
+| Component | Status |
+|-----------|--------|
+| Python | ✅ Installed and verified |
+| Essential Packages | ✅ numpy, pandas, matplotlib installed |
+| Quarto | ✅ Installed and verified |
+| VS Code + Quarto Extension | ✅ Configured for development |
+| First Document | ✅ Created and rendered successfully |
+
+### Key Commands to Remember
+
+| Command | Description |
+|---------|-------------|
+| `quarto --version` | Check Quarto version |
+| `quarto check` | Verify installation and Python integration |
+| `quarto render document.qmd` | Render a Quarto document |
+| `quarto preview document.qmd` | Preview document with live reload |
+| `pip install package_name` | Install Python packages |
+
+> Happy documenting! You're now ready to create beautiful, reproducible documents that combine narrative, code, and results.
+
+## Getting Help
+
+If you encounter any issues:
+
+- Check the official Quarto documentation: [https://quarto.org/docs/](https://quarto.org/docs/)
+- Review the troubleshooting section above
+- Ask your instructor for help
+- Check that all prerequisite software is properly installed
+- Verify your Python environment is working correctly
+
+> **Remember:** Quarto is a powerful tool that will serve you well throughout your academic and professional career. Take time to explore its features and experiment with different types of documents!
